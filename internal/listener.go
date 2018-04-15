@@ -82,7 +82,7 @@ func newListenerService(client *HazelcastClient) *listenerService {
 	}
 	service.client.ConnectionManager.addListener(service)
 	go service.process()
-	if service.client.ClientConfig.ClientNetworkConfig().IsSmartRouting() {
+	if service.client.ClientConfig.NetworkConfig().IsSmartRouting() {
 		service.client.HeartBeatService.AddHeartbeatListener(service)
 		go service.connectToAllMembersPeriodically()
 	}
@@ -289,10 +289,10 @@ func (listenerService *listenerService) OnHeartbeatRestoredInternal(connection *
 	}
 }
 func (listenerService *listenerService) trySyncConnectToAllConnections() error {
-	if !listenerService.client.ClientConfig.ClientNetworkConfig().IsSmartRouting() {
+	if !listenerService.client.ClientConfig.NetworkConfig().IsSmartRouting() {
 		return nil
 	}
-	remainingTime := listenerService.client.ClientConfig.ClientNetworkConfig().InvocationTimeout()
+	remainingTime := listenerService.client.ClientConfig.NetworkConfig().InvocationTimeout()
 	for listenerService.client.LifecycleService.isLive.Load().(bool) && remainingTime > 0 {
 		members := listenerService.client.GetCluster().GetMemberList()
 		start := time.Now()

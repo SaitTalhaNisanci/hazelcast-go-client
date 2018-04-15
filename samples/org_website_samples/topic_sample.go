@@ -29,7 +29,7 @@ func (self *topicMessageListener) OnMessage(message core.ITopicMessage) {
 
 func topicSampleRun() {
 	// Start the Hazelcast Client and connect to an already running Hazelcast Cluster on 127.0.0.1
-	hz, _ := hazelcast.NewHazelcastClient()
+	hz, _ := hazelcast.NewClient()
 	// Get a Topic called "my-distributed-topic"
 	topic, _ := hz.GetTopic("my-distributed-topic")
 	// Add a Listener to the Topic

@@ -27,9 +27,9 @@ import (
 func TestNonSmartInvoke(t *testing.T) {
 	cluster, _ = remoteController.CreateCluster("3.9", DefaultServerConfig)
 	remoteController.StartMember(cluster.ID)
-	config := hazelcast.NewHazelcastConfig()
-	config.ClientNetworkConfig().SetSmartRouting(false)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	config := hazelcast.NewConfig()
+	config.NetworkConfig().SetSmartRouting(false)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp, _ := client.GetMap("myMap")
 	testKey := "testingKey"
 	testValue := "testingValue"
@@ -45,9 +45,9 @@ func TestSingleConnectionWithManyMembers(t *testing.T) {
 	remoteController.StartMember(cluster.ID)
 	remoteController.StartMember(cluster.ID)
 	remoteController.StartMember(cluster.ID)
-	config := hazelcast.NewHazelcastConfig()
-	config.ClientNetworkConfig().SetSmartRouting(false)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	config := hazelcast.NewConfig()
+	config.NetworkConfig().SetSmartRouting(false)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp, _ := client.GetMap("testMap")
 	for i := 0; i < 100; i++ {
 		testKey := "testingKey" + strconv.Itoa(i)
@@ -65,10 +65,10 @@ func TestSingleConnectionWithManyMembers(t *testing.T) {
 func TestInvocationTimeout(t *testing.T) {
 	cluster, _ = remoteController.CreateCluster("3.9", DefaultServerConfig)
 	member1, _ := remoteController.StartMember(cluster.ID)
-	config := hazelcast.NewHazelcastConfig()
-	config.ClientNetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(100)
-	config.ClientNetworkConfig().SetInvocationTimeoutInSeconds(5)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	config := hazelcast.NewConfig()
+	config.NetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(100)
+	config.NetworkConfig().SetInvocationTimeoutInSeconds(5)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp, _ := client.GetMap("testMap")
 	remoteController.ShutdownMember(cluster.ID, member1.UUID)
 	_, err := mp.Put("a", "b")
@@ -82,9 +82,9 @@ func TestInvocationTimeout(t *testing.T) {
 func TestInvocationRetry(t *testing.T) {
 	cluster, _ = remoteController.CreateCluster("3.9", DefaultServerConfig)
 	member1, _ := remoteController.StartMember(cluster.ID)
-	config := hazelcast.NewHazelcastConfig()
-	config.ClientNetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(10)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	config := hazelcast.NewConfig()
+	config.NetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(10)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp, _ := client.GetMap("testMap")
 	remoteController.ShutdownMember(cluster.ID, member1.UUID)
 	mu := sync.Mutex{}
@@ -107,9 +107,9 @@ func TestInvocationRetry(t *testing.T) {
 func TestInvocationWithShutdown(t *testing.T) {
 	cluster, _ = remoteController.CreateCluster("3.9", DefaultServerConfig)
 	remoteController.StartMember(cluster.ID)
-	config := hazelcast.NewHazelcastConfig()
-	config.ClientNetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(10)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	config := hazelcast.NewConfig()
+	config.NetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(10)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp, _ := client.GetMap("testMap")
 	client.Shutdown()
 	_, err := mp.Put("testingKey", "testingValue")
@@ -123,10 +123,10 @@ func TestInvocationNotSent(t *testing.T) {
 	var wg = new(sync.WaitGroup)
 	cluster, _ = remoteController.CreateCluster("3.9", DefaultServerConfig)
 	member, _ := remoteController.StartMember(cluster.ID)
-	config := hazelcast.NewHazelcastConfig()
-	config.ClientNetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(100).
+	config := hazelcast.NewConfig()
+	config.NetworkConfig().SetRedoOperation(true).SetConnectionAttemptLimit(100).
 		SetInvocationTimeoutInSeconds(10).SetConnectionAttemptPeriod(1)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp, _ := client.GetMap("testMap")
 	wg.Add(50)
 	// make put ops concurrently so that some of them will not be sent when the server gets shut down.

@@ -21,29 +21,29 @@ import (
 	"github.com/hazelcast/hazelcast-go-client/internal"
 )
 
-// NewHazelcastClient creates and returns a new IHazelcastInstance.
+// NewClient creates and returns a new IHazelcastInstance.
 // IHazelcast instance enables you to do all Hazelcast operations without
 // being a member of the cluster. It connects to one of the
 // cluster members and delegates all cluster wide operations to it.
 // When the connected cluster member dies, client will
 // automatically switch to another live member.
-func NewHazelcastClient() (IHazelcastInstance, error) {
-	return NewHazelcastClientWithConfig(config.NewClientConfig())
+func NewClient() (IHazelcastInstance, error) {
+	return NewClientWithConfig(config.New())
 }
 
-// NewHazelcastClient creates and returns a new IHazelcastInstance with the given config.
+// NewClientWithConfig creates and returns a new IHazelcastInstance with the given config.
 // IHazelcast instance enables you to do all Hazelcast operations without
 // being a member of the cluster. It connects to one of the
 // cluster members and delegates all cluster wide operations to it.
 // When the connected cluster member dies, client will
 // automatically switch to another live member.
-func NewHazelcastClientWithConfig(config *config.ClientConfig) (IHazelcastInstance, error) {
+func NewClientWithConfig(config *config.Config) (IHazelcastInstance, error) {
 	return internal.NewHazelcastClient(config)
 }
 
-// NewHazelcsatConfig creates and returns a new ClientConfig.
-func NewHazelcastConfig() *config.ClientConfig {
-	return config.NewClientConfig()
+// NewHazelcsatConfig creates and returns a new Config.
+func NewConfig() *config.Config {
+	return config.New()
 }
 
 // IHazelcastInstance is a Hazelcast instance. Each Hazelcast instance is a member (node) in a cluster.

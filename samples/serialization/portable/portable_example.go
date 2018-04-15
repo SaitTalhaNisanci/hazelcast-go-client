@@ -83,13 +83,13 @@ func (*engineerFactory) Create(classId int32) serialization.Portable {
 
 func main() {
 	var err error
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 
 	en := &engineer{"Furkan", "Şenharputlu", 22, []string{"Turkish", "English", "Arabic"}}
 	enFactory := &engineerFactory{}
 
 	config.SerializationConfig().AddPortableFactory(en.FactoryId(), enFactory)
-	client, err := hazelcast.NewHazelcastClientWithConfig(config)
+	client, err := hazelcast.NewClientWithConfig(config)
 	if err != nil {
 		log.Println(err)
 	}

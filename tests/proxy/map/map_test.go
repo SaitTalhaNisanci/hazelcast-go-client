@@ -42,7 +42,7 @@ func TestMain(m *testing.M) {
 	}
 	cluster, err := remoteController.CreateCluster("3.9", DefaultServerConfig)
 	remoteController.StartMember(cluster.ID)
-	client, _ = hazelcast.NewHazelcastClient()
+	client, _ = hazelcast.NewClient()
 	mp, _ = client.GetMap("myMap")
 	predicateTestInit()
 	m.Run()
@@ -986,11 +986,11 @@ func TestMapProxy_RemoveEntryListenerToKeyWithInvalidRegistrationId(t *testing.T
 }
 
 func TestMapProxy_ExecuteOnKey(t *testing.T) {
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 	expectedValue := "newValue"
 	processor := newSimpleEntryProcessor(expectedValue, 66)
 	config.SerializationConfig().AddDataSerializableFactory(processor.identifiedFactory.factoryId, processor.identifiedFactory)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp2, _ := client.GetMap("testMap2")
 	testKey := "testingKey1"
 	testValue := "testingValue"
@@ -1005,11 +1005,11 @@ func TestMapProxy_ExecuteOnKey(t *testing.T) {
 
 func TestMapProxy_ExecuteOnKeys(t *testing.T) {
 
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 	expectedValue := "newValue"
 	processor := newSimpleEntryProcessor(expectedValue, 66)
 	config.SerializationConfig().AddDataSerializableFactory(processor.identifiedFactory.factoryId, processor.identifiedFactory)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp2, _ := client.GetMap("testMap2")
 	for i := 0; i < 10; i++ {
 		testKey := "testingKey" + strconv.Itoa(i)
@@ -1030,11 +1030,11 @@ func TestMapProxy_ExecuteOnKeys(t *testing.T) {
 }
 
 func TestMapProxy_ExecuteOnEntries(t *testing.T) {
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 	expectedValue := "newValue"
 	processor := newSimpleEntryProcessor(expectedValue, 66)
 	config.SerializationConfig().AddDataSerializableFactory(processor.identifiedFactory.factoryId, processor.identifiedFactory)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp2, _ := client.GetMap("testMap2")
 	for i := 0; i < 10; i++ {
 		testKey := "testingKey" + strconv.Itoa(i)
@@ -1052,11 +1052,11 @@ func TestMapProxy_ExecuteOnEntries(t *testing.T) {
 }
 
 func TestMapProxy_ExecuteOnEntriesWithPredicate(t *testing.T) {
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 	expectedValue := "newValue"
 	processor := newSimpleEntryProcessor(expectedValue, 66)
 	config.SerializationConfig().AddDataSerializableFactory(processor.identifiedFactory.factoryId, processor.identifiedFactory)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp2, _ := client.GetMap("testMap2")
 	for i := 0; i < 10; i++ {
 		testKey := "testingKey" + strconv.Itoa(i)
@@ -1077,11 +1077,11 @@ func TestMapProxy_ExecuteOnEntriesWithPredicate(t *testing.T) {
 }
 
 func TestMapProxy_ExecuteOnKeyWithNonRegisteredProcessor(t *testing.T) {
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 	expectedValue := "newValue"
 	processor := newSimpleEntryProcessor(expectedValue, 68)
 	config.SerializationConfig().AddDataSerializableFactory(processor.identifiedFactory.factoryId, processor.identifiedFactory)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	client, _ := hazelcast.NewClientWithConfig(config)
 	mp2, _ := client.GetMap("testMap2")
 	testKey := "testingKey1"
 	testValue := "testingValue"

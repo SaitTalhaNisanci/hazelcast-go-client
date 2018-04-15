@@ -23,11 +23,11 @@ import (
 // EntryProcessor should be implemented on the server side.
 // EntryProcessor should be registered to serialization.
 func main() {
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 	expectedValue := "newValue"
 	processor := newSimpleEntryProcessor(expectedValue)
 	config.SerializationConfig().AddDataSerializableFactory(processor.identifiedFactory.factoryId, processor.identifiedFactory)
-	client, _ := hazelcast.NewHazelcastClientWithConfig(config)
+	client, _ := hazelcast.NewClientWithConfig(config)
 
 	mp, _ := client.GetMap("testMap")
 	mp.Put("testKey", "testValue")

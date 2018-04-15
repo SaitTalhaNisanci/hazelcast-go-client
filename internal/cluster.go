@@ -37,7 +37,7 @@ var wg sync.WaitGroup
 
 type clusterService struct {
 	client                 *HazelcastClient
-	config                 *config.ClientConfig
+	config                 *config.Config
 	members                atomic.Value
 	ownerUuid              atomic.Value
 	uuid                   atomic.Value
@@ -47,7 +47,7 @@ type clusterService struct {
 	reconnectChan          chan struct{}
 }
 
-func newClusterService(client *HazelcastClient, config *config.ClientConfig) *clusterService {
+func newClusterService(client *HazelcastClient, config *config.Config) *clusterService {
 	service := &clusterService{client: client, config: config, reconnectChan: make(chan struct{}, 1)}
 	service.ownerConnectionAddress.Store(&Address{})
 	service.members.Store(make([]*Member, 0))             //Initialize
@@ -119,12 +119,12 @@ func (clusterService *clusterService) reconnect() {
 func (clusterService *clusterService) connectToCluster() error {
 
 	currentAttempt := int32(1)
-	attempLimit := clusterService.config.ClientNetworkConfig().ConnectionAttemptLimit()
-	retryDelay := clusterService.config.ClientNetworkConfig().ConnectionAttemptPeriod()
+	attempLimit := clusterService.config.NetworkConfig().ConnectionAttemptLimit()
+	retryDelay := clusterService.config.NetworkConfig().ConnectionAttemptPeriod()
 	for currentAttempt <= attempLimit {
 		currentAttempt++
 		members := clusterService.members.Load().([]*Member)
-		addresses := getPossibleAddresses(clusterService.config.ClientNetworkConfig().Addresses(), members)
+		addresses := getPossibleAddresses(clusterService.config.NetworkConfig().Addresses(), members)
 		for _, address := range addresses {
 			if !clusterService.client.LifecycleService.isLive.Load().(bool) {
 				return core.NewHazelcastIllegalStateError("giving up on retrying to connect to cluster since client is shutdown.", nil)

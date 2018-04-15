@@ -62,7 +62,7 @@ func newInvocation(request *ClientMessage, partitionId int32, address *Address, 
 		err:             make(chan error, 1),
 		closed:          make(chan bool, 1),
 		done:            make(chan bool, 1),
-		timeout:         time.After(client.ClientConfig.ClientNetworkConfig().InvocationTimeout()),
+		timeout:         time.After(client.ClientConfig.NetworkConfig().InvocationTimeout()),
 	}
 	invocation.isTimedout.Store(false)
 	go func() {
@@ -122,7 +122,7 @@ func newInvocationService(client *HazelcastClient) *invocationService {
 	}
 
 	service.isShutdown.Store(false)
-	if client.ClientConfig.ClientNetworkConfig().IsSmartRouting() {
+	if client.ClientConfig.NetworkConfig().IsSmartRouting() {
 		service.invoke = service.invokeSmart
 	} else {
 		service.invoke = service.invokeNonSmart
@@ -376,7 +376,7 @@ func (invocationService *invocationService) handleException(invocation *invocati
 }
 
 func (invocationService *invocationService) isRedoOperation() bool {
-	return invocationService.client.ClientConfig.ClientNetworkConfig().IsRedoOperation()
+	return invocationService.client.ClientConfig.NetworkConfig().IsRedoOperation()
 }
 func (invocationService *invocationService) shouldRetryInvocation(clientInvocation *invocation, err error) bool {
 	_, isTargetDisconnectedError := err.(*HazelcastTargetDisconnectedError)

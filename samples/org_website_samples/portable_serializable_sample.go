@@ -75,10 +75,10 @@ func (pf *SamplePortableFactory) Create(classId int32) Portable {
 }
 
 func portableSerializableSampleRun() {
-	clientConfig := NewClientConfig()
+	clientConfig := New()
 	clientConfig.SerializationConfig().AddPortableFactory(samplePortableFactoryId, &SamplePortableFactory{})
 	// Start the Hazelcast Client and connect to an already running Hazelcast Cluster on 127.0.0.1
-	hz, _ := NewHazelcastClientWithConfig(clientConfig)
+	hz, _ := NewClientWithConfig(clientConfig)
 	// Customer can be used here
 
 	// Shutdown this hazelcast client

@@ -39,14 +39,14 @@ func startMapSoak() {
 	numbPtr := flag.Float64("hour", 48, "a float")
 	addresses := flag.String("addresses", "", "addresses")
 	flag.Parse()
-	config := hazelcast.NewHazelcastConfig()
+	config := hazelcast.NewConfig()
 	processor := newSimpleEntryProcessor("test", 66)
 	config.SerializationConfig().AddDataSerializableFactory(processor.identifiedFactory.factoryId, processor.identifiedFactory)
 	addressSlice := strings.Split(*addresses, "-")
 	for _, address := range addressSlice {
-		config.ClientNetworkConfig().AddAddress(address)
+		config.NetworkConfig().AddAddress(address)
 	}
-	client, err := hazelcast.NewHazelcastClientWithConfig(config)
+	client, err := hazelcast.NewClientWithConfig(config)
 	if err != nil {
 		log.Println(err)
 	}

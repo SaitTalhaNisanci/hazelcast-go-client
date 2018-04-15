@@ -43,11 +43,11 @@ func (s *CustomSerializer) Write(output DataOutput, obj interface{}) (err error)
 }
 
 func customSerializerSampleRun() {
-	clientConfig := NewHazelcastConfig()
+	clientConfig := NewConfig()
 	clientConfig.SerializationConfig().AddCustomSerializer(reflect.TypeOf((*CustomSerializable)(nil)), &CustomSerializer{})
 
 	// Start the Hazelcast Client and connect to an already running Hazelcast Cluster on 127.0.0.1
-	hz, _ := NewHazelcastClientWithConfig(clientConfig)
+	hz, _ := NewClientWithConfig(clientConfig)
 	// CustomSerializer will serialize/deserialize CustomSerializable objects
 
 	// Shutdown this hazelcast client

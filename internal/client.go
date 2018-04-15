@@ -22,7 +22,7 @@ import (
 )
 
 type HazelcastClient struct {
-	ClientConfig         *ClientConfig
+	ClientConfig         *Config
 	InvocationService    *invocationService
 	PartitionService     *partitionService
 	SerializationService *SerializationService
@@ -35,7 +35,7 @@ type HazelcastClient struct {
 	HeartBeatService     *heartBeatService
 }
 
-func NewHazelcastClient(config *ClientConfig) (*HazelcastClient, error) {
+func NewHazelcastClient(config *Config) (*HazelcastClient, error) {
 	client := HazelcastClient{ClientConfig: config}
 	err := client.init()
 	return &client, err
