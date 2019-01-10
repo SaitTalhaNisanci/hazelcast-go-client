@@ -95,6 +95,7 @@
 
 [![GoDoc](https://godoc.org/github.com/hazelcast/hazelcast-go-client?status.svg)](https://godoc.org/github.com/hazelcast/hazelcast-go-client)
 [![Go Report Card](https://goreportcard.com/badge/github.com/hazelcast/hazelcast-go-client)](https://goreportcard.com/report/github.com/hazelcast/hazelcast-go-client)
+[![Build Status](https://hazelcast-l337.ci.cloudbees.com/job/golang-lab/badge/icon)](https://hazelcast-l337.ci.cloudbees.com/job/golang-lab)
 <br />
 
 This document explains Go client for Hazelcast which uses Hazelcast's Open Client Protocol 1.6. This client works with Hazelcast 3.6 and higher.
