@@ -240,8 +240,6 @@ func TestClientStatisticsContent(t *testing.T) {
 	assert.Equal(t, true, strings.Contains(res, "clientVersion="+internal.ClientVersion))
 	assert.Equal(t, true, strings.Contains(res, "clusterConnectionTimestamp="))
 	assert.Equal(t, true, strings.Contains(res, "clientAddress="))
-	assert.Equal(t, true, strings.Contains(res, "os.maxFileDescriptorCount="))
-	assert.Equal(t, true, strings.Contains(res, "os.openFileDescriptorCount="))
 	assert.Equal(t, true, strings.Contains(res, "runtime.availableProcessors="))
 	assert.Equal(t, true, strings.Contains(res, "runtime.freeMemory="))
 	assert.Equal(t, true, strings.Contains(res, "runtime.totalMemory="))
